@@ -1,18 +1,10 @@
-from django.contrib import admin
-from django.urls import path,include
-from django.conf import settings
-from django.conf.urls.static import static
-from .views import *
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import UserViewSet
+
+router = DefaultRouter()
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
-      path('users/', UserList.as_view(), name='user-list'),
-    path('users/create', UserCreate.as_view(), name='create-user'),
-    path('users/<int:pk>', UserDetail.as_view(), name='user-detail'),
-    path('users/<int:pk>', UserUpdate.as_view(), name='user-update'),
-    path('users/<int:pk>', UserDelete.as_view(), name='user-delete'),
-
+    path('', include(router.urls)),
 ]
-
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
